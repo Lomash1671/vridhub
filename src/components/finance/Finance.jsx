@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import billmanagement from '../../assets/billmanagement.jpeg'; // Adjust the image path
-import doctorImg from '../../assets/directory.jpg';  // Adjust the image path
+import balanceImg from '../../assets/balance.png';  // Adjust the image path
 
 // Tile data array
 const tilesData = [
@@ -13,7 +13,7 @@ const tilesData = [
   },
   {
     title: 'Balance Tracker',
-    imgSrc: doctorImg,
+    imgSrc: balanceImg,
     link: '/finance/balance-tracker',
     alt: 'Balance Tracker',
   },
