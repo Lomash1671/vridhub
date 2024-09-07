@@ -1,86 +1,62 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+// import logo from './logo.png'; 
 
 const Navbar = () => {
-  const styles = {
-    header: {
-      backgroundColor: 'rgba(255, 255, 255, 0.8)',
-      padding: '20px',
-      textAlign: 'center',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-      position: 'relative',
-      top: '0',
-      zIndex: 1000,
-    },
-    headerTitle: {
-      fontSize: '36px',
-      color: '#6a1b9a',
-      margin: '0',
-    },
-    nav: {
-      marginTop: '10px',
-    },
-    navLink: {
-      color: '#333',
-      textDecoration: 'none',
-      margin: '0 15px',
-      fontSize: '20px',
-      fontWeight: 'bold',
-      transition: 'color 0.3s ease, transform 0.3s ease',
-      display: 'inline-block',
-    },
-    navLinkHover: {
-      color: '#6a1b9a',
-      transform: 'scale(1.1)',
-    },
-  };
-
   return (
-    <header style={styles.header}>
-      <h1 style={styles.headerTitle}>Elderly Companionship Assistance</h1>
-      <nav style={styles.nav}>
-        <Link
-          to="/"
-          style={styles.navLink}
-          onMouseOver={(e) => (e.target.style.color = styles.navLinkHover.color, e.target.style.transform = styles.navLinkHover.transform)}
-          onMouseOut={(e) => (e.target.style.color = '#333', e.target.style.transform = 'scale(1)')}
-        >
-          Home
+    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+      <div className="container">
+        <Link className="navbar-brand" to="/">
+          <img src='' alt="Logo" width="40" height="40" className="d-inline-block align-top" />
+          Elderly Assistance
         </Link>
-        <Link
-          to="/health"
-          style={styles.navLink}
-          onMouseOver={(e) => (e.target.style.color = styles.navLinkHover.color, e.target.style.transform = styles.navLinkHover.transform)}
-          onMouseOut={(e) => (e.target.style.color = '#333', e.target.style.transform = 'scale(1)')}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
-          Health
-        </Link>
-        <Link
-          to="/finance"
-          style={styles.navLink}
-          onMouseOver={(e) => (e.target.style.color = styles.navLinkHover.color, e.target.style.transform = styles.navLinkHover.transform)}
-          onMouseOut={(e) => (e.target.style.color = '#333', e.target.style.transform = 'scale(1)')}
-        >
-          Financial
-        </Link>
-        <Link
-          to="/transport"
-          style={styles.navLink}
-          onMouseOver={(e) => (e.target.style.color = styles.navLinkHover.color, e.target.style.transform = styles.navLinkHover.transform)}
-          onMouseOut={(e) => (e.target.style.color = '#333', e.target.style.transform = 'scale(1)')}
-        >
-          Transport
-        </Link>
-        <Link
-          to="/isolation"
-          style={styles.navLink}
-          onMouseOver={(e) => (e.target.style.color = styles.navLinkHover.color, e.target.style.transform = styles.navLinkHover.transform)}
-          onMouseOut={(e) => (e.target.style.color = '#333', e.target.style.transform = 'scale(1)')}
-        >
-          Community
-        </Link>
-      </nav>
-    </header>
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <Link className="nav-link" to="/">
+                Home
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/health">
+                Health
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/finance">
+                Financial
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/transport">
+                Transport
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/isolation">
+                Community
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/contact">
+                Contact
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   );
 };
 

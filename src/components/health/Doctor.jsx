@@ -128,9 +128,6 @@ const Doctor = () => {
       </Helmet>
       <Container>
 
-        <header style={headerStyle}>Doctor Management</header>
-
-
         <main className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: '80vh', padding: '20px' }}>
           <Box sx={buttonsStyle}>
             <Button

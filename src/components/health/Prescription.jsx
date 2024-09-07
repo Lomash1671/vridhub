@@ -125,8 +125,6 @@ const Prescription = () => {
 
   return (
     <div>
-      <header style={headerStyle}>Prescription Management</header>
-
       <main className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: '80vh', padding: '20px' }}>
         {/* Display loading animation */}
         {loading && <Spinner animation="border" role="status">

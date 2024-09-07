@@ -16,6 +16,7 @@ import { useEffect } from 'react'
 import Isolation from './components/community/Isolation'
 import Community from './components/community/Community'
 import Intergenerational from './components/community/Intergenerational'
+import Contact from './components/Contact'
 
 function App() {
   useEffect(() => {
@@ -26,6 +27,7 @@ function App() {
     <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
+        <Route path="/contact" element={<Contact />}></Route>
         {/* Health */}
         <Route path="/health" element={<Health />} />
         <Route path="/health/prescription" element={<Prescription />} />
@@ -43,7 +45,7 @@ function App() {
         <Route path="/isolation/community" element={<Community />} />
         <Route path="/isolation/intergenerational" element={<Intergenerational />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   )
 }
