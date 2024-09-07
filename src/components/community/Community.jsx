@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React, { useState } from 'react';
-import elderlyCommunityImg from '../../assets/communityMeetup1.jpeg';
-import communityMeetup1 from '../../assets/communityMeetup1.jpeg';
-import communityMeetup2 from '../../assets/communityMeetup1.jpeg';
-import communityMeetup3 from '../../assets/communityMeetup1.jpeg';
+import elderly from '../../assets/back.jpg';
+import elderly1 from '../../assets/back.jpg';
+import elderly2 from '../../assets/back.jpg';
+import elderly3 from '../../assets/back.jpg';
 
 const headerStyle = css`
   background-color: #2C3E50;
@@ -158,7 +158,7 @@ const Community = () => {
         <h2 css={sectionTitleStyle}>Community Meetups</h2>
         <div css={featureStyle}>
           <div css={featureCardStyle}>
-            <img src={communityMeetup1} alt="Local Gatherings" />
+            <img src={elderly1} alt="Local Gatherings" />
             <h3>Local Gatherings</h3>
             <p>Participate in local gatherings organized by NGOs to foster a sense of belonging among the elderly.</p>
             <button onClick={() => toggleInfo('info1')}>Learn More</button>
@@ -169,7 +169,7 @@ const Community = () => {
             )}
           </div>
           <div css={featureCardStyle}>
-            <img src={communityMeetup2} alt="Workshops and Activities" />
+            <img src={elderly2} alt="Workshops and Activities" />
             <h3>Workshops and Activities</h3>
             <p>Join various workshops and activities tailored to the interests of elderly participants.</p>
             <button onClick={() => toggleInfo('info2')}>Learn More</button>
@@ -180,7 +180,7 @@ const Community = () => {
             )}
           </div>
           <div css={featureCardStyle}>
-            <img src={communityMeetup3} alt="Outdoor Events" />
+            <img src={elderly3} alt="Outdoor Events" />
             <h3>Outdoor Events</h3>
             <p>Experience the joy of outdoor events like picnics, nature walks, and cultural festivals.</p>
             <button onClick={() => toggleInfo('info3')}>Learn More</button>
