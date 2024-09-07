@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import prescriptionImg from '../../assets/pres.jpg'; // Adjust the image path
 import doctorImg from '../../assets/directory.jpg';  // Adjust the image path
 

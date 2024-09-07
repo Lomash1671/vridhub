@@ -4,6 +4,7 @@ import health from '../assets/health.png';
 import finance from '../assets/finance.jpeg.jpg';
 import transport from '../assets/transport.jpg';
 import isolation from '../assets/isolation.png';
+import Navbar from './Navbar';
 
 const Home = () => {
   const styles = {
@@ -14,31 +15,6 @@ const Home = () => {
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       color: '#333',
-    },
-    header: {
-      backgroundColor: 'rgba(255, 255, 255, 0.8)',
-      padding: '20px',
-      textAlign: 'center',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-      position: 'sticky',
-      top: '0',
-      zIndex: 1000,
-    },
-    headerTitle: {
-      fontSize: '36px',
-      color: '#6a1b9a',
-      margin: '0',
-    },
-    nav: {
-      marginTop: '10px',
-    },
-    navLink: {
-      color: '#333',
-      textDecoration: 'none',
-      margin: '0 15px',
-      fontSize: '20px',
-      fontWeight: 'bold',
-      transition: 'color 0.3s',
     },
     content: {
       textAlign: 'center',
@@ -77,30 +53,11 @@ const Home = () => {
       fontSize: '18px',
       margin: '0',
     },
-    footer: {
-      textAlign: 'center',
-      padding: '20px',
-      backgroundColor: 'rgba(255, 255, 255, 0.8)',
-      fontSize: '16px',
-      position: 'fixed',
-      bottom: '0',
-      width: '100%',
-      boxShadow: '0 -4px 8px rgba(0, 0, 0, 0.2)',
-    },
+    
   };
 
   return (
     <div style={styles.body}>
-      <header style={styles.header}>
-        <h1 style={styles.headerTitle}>Elderly Companionship Assistance</h1>
-        <nav style={styles.nav}>
-          <Link to="/" style={styles.navLink}>Home</Link>
-          <Link to="/about" style={styles.navLink}>About Us</Link>
-          <Link to="/services" style={styles.navLink}>Services</Link>
-          <Link to="/contact" style={styles.navLink}>Contact Us</Link>
-        </nav>
-      </header>
-
       <div style={styles.content}>
         <h2 style={styles.contentTitle}>Empowering Seniors, Enhancing Lives</h2>
         <div style={styles.services}>
@@ -130,10 +87,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-      <footer style={styles.footer}>
-        Designed By: Byte Busters
-      </footer>
     </div>
   );
 };
