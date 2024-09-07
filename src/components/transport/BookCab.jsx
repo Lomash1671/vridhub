@@ -44,6 +44,7 @@ const BookCab = () => {
     }
   };
 
+  // Styling
   const containerStyle = {
     fontFamily: 'Arial, sans-serif',
     backgroundColor: '#f4f4f4',
@@ -59,33 +60,43 @@ const BookCab = () => {
     textAlign: 'center',
     padding: '20px',
     fontSize: '30px',
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
   };
 
   const navStyle = {
     backgroundColor: '#333',
-    padding: '15px',
+    padding: '10px',
     textAlign: 'center',
+    marginBottom: '20px',
   };
 
   const navLinkStyle = {
     color: 'white',
-    fontSize: '20px',
+    fontSize: '18px',
     textDecoration: 'none',
     margin: '0 15px',
-    padding: '10px 15px',
-  };
-
-  const navLinkHoverStyle = {
-    backgroundColor: '#575757',
+    padding: '8px 12px',
     borderRadius: '5px',
   };
 
   const sectionStyle = {
     backgroundColor: 'white',
     margin: '20px 0',
-    padding: '20px',
+    padding: '30px',
     borderRadius: '10px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    maxWidth: '500px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  };
+
+  const inputStyle = {
+    fontSize: '14px', // Smaller font size
+    padding: '10px',
+    width: '100%',
+    margin: '10px 0',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
   };
 
   const buttonStyle = {
@@ -94,7 +105,7 @@ const BookCab = () => {
     fontSize: '14px', // Smaller font size
     border: 'none',
     padding: '10px 15px', // Smaller padding
-    margin: '0 5px', // Space between buttons
+    margin: '10px 0', // Space between buttons
     cursor: 'pointer',
     borderRadius: '5px',
     transition: 'background-color 0.3s',
@@ -102,15 +113,6 @@ const BookCab = () => {
 
   const buttonHoverStyle = {
     backgroundColor: '#388E3C',
-  };
-
-  const inputStyle = {
-    fontSize: '18px',
-    padding: '15px',
-    width: '100%',
-    margin: '10px 0',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
   };
 
   const footerStyle = {
@@ -124,7 +126,7 @@ const BookCab = () => {
   const buttonContainerStyle = {
     display: 'flex',
     justifyContent: 'center',
-    gap: '10px', // Space between buttons
+    gap: '10px',
     marginBottom: '20px',
   };
 
@@ -140,23 +142,27 @@ const BookCab = () => {
       </header>
 
       <nav style={navStyle}>
-        <a href="#book-cab" style={{ ...navLinkStyle, ...navLinkHoverStyle }}>Book Cab</a>
-        <a href="#book-bus" style={{ ...navLinkStyle, ...navLinkHoverStyle }}>Book Bus</a>
-        <a href="#book-train" style={{ ...navLinkStyle, ...navLinkHoverStyle }}>Book Train</a>
+        <a href="#book-cab" style={{ ...navLinkStyle }}>Book Cab</a>
+        <a href="#book-bus" style={{ ...navLinkStyle }}>Book Bus</a>
+        <a href="#book-train" style={{ ...navLinkStyle }}>Book Train</a>
       </nav>
 
       <main style={{ padding: '20px' }}>
         <div style={buttonContainerStyle}>
           <button
             className="btn btn-primary"
-            style={{ ...buttonStyle, backgroundColor: '#4CAF50' }}
+            style={buttonStyle}
+            onMouseOver={(e) => (e.target.style.backgroundColor = '#388E3C')}
+            onMouseOut={(e) => (e.target.style.backgroundColor = '#4CAF50')}
             onClick={toggleContrast}
           >
             Toggle High Contrast
           </button>
           <button
             className="btn btn-primary"
-            style={{ ...buttonStyle, backgroundColor: '#4CAF50' }}
+            style={buttonStyle}
+            onMouseOver={(e) => (e.target.style.backgroundColor = '#388E3C')}
+            onMouseOut={(e) => (e.target.style.backgroundColor = '#4CAF50')}
             onClick={toggleLargerText}
           >
             Larger Text
@@ -219,7 +225,9 @@ const BookCab = () => {
               type="submit"
               value="Book Now"
               className="btn btn-primary"
-              style={{ ...buttonStyle, backgroundColor: '#4CAF50' }}
+              style={buttonStyle}
+              onMouseOver={(e) => (e.target.style.backgroundColor = '#388E3C')}
+              onMouseOut={(e) => (e.target.style.backgroundColor = '#4CAF50')}
             />
           </form>
           <p style={{ color: 'green', fontWeight: 'bold' }}>{message}</p>

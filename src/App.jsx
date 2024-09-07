@@ -11,9 +11,16 @@ import BalanceTracker from './components/finance/BalanceTracker'
 import Footer from './components/Footer'
 import BookCab from './components/transport/BookCab'
 import Transport from './components/transport/Transport'
+import Carpool from './components/transport/Carpool'
+import { useEffect } from 'react'
+import Isolation from './components/community/Isolation'
+import Community from './components/community/Community'
+import Intergenerational from './components/community/Intergenerational'
 
 function App() {
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <BrowserRouter>
     <Navbar />
@@ -30,7 +37,11 @@ function App() {
         {/* Transport */}
         <Route path="/transport" element={<Transport />} />
         <Route path="/transport/book-cab" element={<BookCab />} />
-        <Route path="/transport/carpool" element={<BalanceTracker />} />
+        <Route path="/transport/carpool" element={<Carpool />} />
+        {/* Communtiy */}
+        <Route path="/isolation" element={<Isolation />} />
+        <Route path="/isolation/community" element={<Community />} />
+        <Route path="/isolation/intergenerational" element={<Intergenerational />} />
       </Routes>
       <Footer />
     </BrowserRouter>
