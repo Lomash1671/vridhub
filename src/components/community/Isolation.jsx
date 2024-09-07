@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import prescriptionImg from '../../assets/pres.jpg'; // Adjust the image path
-import doctorImg from '../../assets/directory.jpg';  // Adjust the image path
+import images from '../../assets/images.avif';  // Adjust the image path
 
 // Tile data array
 const tilesData = [
@@ -13,7 +13,7 @@ const tilesData = [
   },
   {
     title: 'Intergenerational',
-    imgSrc: doctorImg,
+    imgSrc: images,
     link: '/isolation/intergenerational',
     alt: 'Intergenerational',
   },
@@ -32,11 +32,22 @@ const Isolation = () => {
 
       <div className="row justify-content-center mt-5">
         {tilesData.map((tile, index) => (
-          <div className="col-lg-4 col-md-6 mb-4" key={index}>
-            <div className="card h-100" onClick={() => handleTileClick(tile.link)} style={{ cursor: 'pointer' }}>
-              <img src={tile.imgSrc} alt={tile.alt} className="card-img-top img-fluid" />
+          <div className="col-lg-4 col-md-6 col-sm-12 mb-4" key={index}>
+            <div
+              className="card h-100 shadow-sm"
+              onClick={() => handleTileClick(tile.link)}
+              style={{ cursor: 'pointer', transition: 'transform 0.3s ease' }}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+            >
+              <img
+                src={tile.imgSrc}
+                alt={tile.alt}
+                className="card-img-top img-fluid"
+                style={{ height: '200px', objectFit: 'cover', transition: 'transform 0.3s ease' }}
+              />
               <div className="card-body">
-                <h5 className="card-title">{tile.title}</h5>
+                <h5 className="card-title" style={{ transition: 'color 0.3s ease' }}>{tile.title}</h5>
               </div>
             </div>
           </div>

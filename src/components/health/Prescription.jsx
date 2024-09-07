@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import supabase from '../../../supabase';
+import { Snackbar, Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Box } from '@mui/material';
+import { Spinner } from 'react-bootstrap'; 
+import { useNavigate } from 'react-router-dom';
 
 const Prescription = () => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [file, setFile] = useState(null);
-  const [alert, setAlert] = useState({ message: '', type: '' }); // State for alert messages
+  const [alert, setAlert] = useState({ message: '', type: '' });
+  const [loading, setLoading] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
+  const navigate = useNavigate();
 
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 
-  // Fetch prescriptions from Supabase
   useEffect(() => {
     const fetchPrescriptions = async () => {
       const { data, error } = await supabase
@@ -25,64 +31,65 @@ const Prescription = () => {
     fetchPrescriptions();
   }, []);
 
-  // Handle file selection
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     setFile(selectedFile);
   };
 
-  // Upload the file to Supabase Storage and insert record in 'prescription' table
   const handleFileUpload = async () => {
     if (!file) {
-      setAlert({ message: 'Please select a file first!', type: 'danger' });
+      setAlert({ message: 'Please select a file first!', type: 'error' });
+      setOpenSnackbar(true);
       return;
     }
 
-    const fileName = `${Date.now()}_${file.name}`; // Unique filename to avoid conflicts
+    setLoading(true);
 
-    // Upload file to Supabase Storage
+    const fileName = `${Date.now()}_${file.name}`;
+
     const { data: storageData, error: uploadError } = await supabase.storage
-      .from('prescriptions')  // Ensure this bucket name is correct
+      .from('prescriptions')
       .upload(fileName, file);
 
     if (uploadError) {
       console.error('Error uploading file: ', uploadError);
-      setAlert({ message: 'Error uploading file. Please try again.', type: 'danger' });
+      setAlert({ message: 'Error uploading file. Please try again.', type: 'error' });
+      setOpenSnackbar(true);
+      setLoading(false);
       return;
     }
 
-    // Construct file path for public access
     const filePath = `${supabaseUrl}/storage/v1/object/public/prescriptions/${fileName}`;
 
-    // Insert file details into 'prescription' table
     const { data, error: insertError } = await supabase
       .from('prescription')
       .insert([{ file: file.name, file_path: filePath }]);
 
     if (insertError) {
       console.error('Error saving prescription to database: ', insertError);
-      setAlert({ message: 'Error saving prescription to database. Please try again.', type: 'danger' });
+      setAlert({ message: 'Error saving prescription to database. Please try again.', type: 'error' });
     } else {
       setAlert({ message: 'Prescription uploaded successfully', type: 'success' });
-      setFile(null); // Clear file input
-      setPrescriptions([...prescriptions, { file: file.name, file_path: filePath }]); // Update local state
+      setFile(null);
+      setPrescriptions([...prescriptions, { file: file.name, file_path: filePath }]);
     }
+    setLoading(false);
+    setOpenSnackbar(true);
+    setOpenDialog(false); // Close dialog after upload
   };
 
-  // Handle prescription deletion
   const handleDelete = async (id, fileName) => {
-    // Delete from Supabase Storage
     const { error: deleteStorageError } = await supabase.storage
       .from('prescriptions')
       .remove([fileName]);
 
     if (deleteStorageError) {
       console.error('Error deleting file from storage: ', deleteStorageError);
-      setAlert({ message: 'Error deleting file from storage. Please try again.', type: 'danger' });
+      setAlert({ message: 'Error deleting file from storage. Please try again.', type: 'error' });
+      setOpenSnackbar(true);
       return;
     }
 
-    // Delete from 'prescription' table
     const { error: deleteDbError } = await supabase
       .from('prescription')
       .delete()
@@ -90,28 +97,56 @@ const Prescription = () => {
 
     if (deleteDbError) {
       console.error('Error deleting prescription from database: ', deleteDbError);
-      setAlert({ message: 'Error deleting prescription from database. Please try again.', type: 'danger' });
+      setAlert({ message: 'Error deleting prescription from database. Please try again.', type: 'error' });
+      setOpenSnackbar(true);
       return;
     }
 
-    // Update local state
     setPrescriptions(prescriptions.filter(prescription => prescription.id !== id));
     setAlert({ message: 'Prescription deleted successfully', type: 'success' });
+    setOpenSnackbar(true);
   };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
+  const handleClickOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+  const handleBack = () => {
+    // navigate back
+    navigate('/health')
+  }
 
   return (
     <div>
       <header style={headerStyle}>Prescription Management</header>
 
       <main className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: '80vh', padding: '20px' }}>
-        {/* Display alert messages */}
-        {alert.message && (
-          <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
-            {alert.message}
-            <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        )}
+        {/* Display loading animation */}
+        {loading && <Spinner animation="border" role="status">
+          <span className="visually-hidden">Uploading...</span>
+        </Spinner>}
 
+        <Box sx={buttonsStyle}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleBack}
+            sx={buttonStyle}
+          >
+            Go Back
+          </Button>
+
+          <Button variant="contained" color="primary" onClick={handleClickOpenDialog} style={buttonStyle}>
+          Add Prescription
+        </Button>
+        </Box>
         {/* Prescription List */}
         <div className="container" style={containerStyle}>
           <section>
@@ -125,7 +160,7 @@ const Prescription = () => {
                 >
                   {prescription.file}: <a href={prescription.file_path} target="_blank" rel="noopener noreferrer" style={linkStyle}>Download/View</a>
                   <button
-                    onClick={() => handleDelete(prescription.id, `${Date.now()}_${prescription.file}`)} // Passing a unique filename for deletion
+                    onClick={() => handleDelete(prescription.id, `${Date.now()}_${prescription.file}`)}
                     style={deleteButtonStyle}
                   >
                     Delete
@@ -136,24 +171,50 @@ const Prescription = () => {
           </section>
         </div>
 
-        {/* Upload New Prescription */}
-        <div className="container" style={containerStyle}>
-          <section>
-            <h2 className="text-center" style={{ color: '#671d80' }}>Upload New Prescription</h2>
+        {/* Button to open the upload dialog */}
+
+
+        {/* Upload Prescription Dialog */}
+        <Dialog open={openDialog} onClose={handleCloseDialog}>
+          <DialogTitle>Upload New Prescription</DialogTitle>
+          <DialogContent>
             <div className="file-input text-center mb-3">
-              <label htmlFor="prescriptionUpload" style={labelStyle}>Select Prescription:</label>
-              <input type="file" id="prescriptionUpload" accept=".pdf,.jpg,.png" onChange={handleFileChange} className="form-control-file" />
+              <TextField
+                type="file"
+                id="prescriptionUpload"
+                accept=".pdf,.jpg,.png"
+                onChange={handleFileChange}
+                fullWidth
+                inputProps={{ accept: '.pdf,.jpg,.png' }}
+              />
             </div>
-            <button
-              className="btn btn-primary btn-block"
-              style={buttonStyle}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDialog} color="primary">
+              Cancel
+            </Button>
+            <Button
               onClick={handleFileUpload}
+              color="primary"
+              disabled={loading}
             >
-              Upload
-            </button>
-          </section>
-        </div>
+              {loading ? 'Uploading...' : 'Upload'}
+            </Button>
+          </DialogActions>
+        </Dialog>
       </main>
+
+      {/* Snackbar for notifications */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={alert.type} sx={{ width: '100%' }}>
+          {alert.message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
@@ -202,14 +263,13 @@ const buttonStyle = {
   padding: '10px 20px',
   borderRadius: '5px',
   cursor: 'pointer',
+  marginTop: '20px',
 };
-
-const labelStyle = {
-  display: 'block',
+const buttonsStyle = {
+  marginTop: '20px',
+  gap: '5px',
+  display: 'flex',
   marginBottom: '10px',
-  fontSize: '16px',
-  fontWeight: 'bold',
-  color: '#671d80',
 };
 
 const deleteButtonStyle = {

@@ -1,7 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import supabase from '../../../supabase'; // import supabase client
-import { Button, Form, Container, Alert } from 'react-bootstrap';
+import {
+  Button,
+  TextField,
+  Container,
+  Alert,
+  Box,
+  Typography,
+  Paper,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from '@mui/material';
 import { Helmet } from 'react-helmet';
+import { useNavigate } from 'react-router-dom';
 
 const Doctor = () => {
   const [doctors, setDoctors] = useState([]);
@@ -10,7 +23,9 @@ const Doctor = () => {
   const [Contact, setContact] = useState('');
   const [Address, setAddress] = useState('');
   const [editingDoctorId, setEditingDoctorId] = useState(null);
-  const [alert, setAlert] = useState({ show: false, message: '', variant: '' });
+  const [alert, setAlert] = useState({ show: false, message: '', severity: '' });
+  const [openModal, setOpenModal] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchDoctors();
@@ -19,7 +34,7 @@ const Doctor = () => {
   const fetchDoctors = async () => {
     const { data, error } = await supabase.from('Doctor_info').select('*');
     if (error) {
-      setAlert({ show: true, message: 'Error fetching doctors.', variant: 'danger' });
+      setAlert({ show: true, message: 'Error fetching doctors.', severity: 'error' });
     } else {
       setDoctors(data);
     }
@@ -30,15 +45,16 @@ const Doctor = () => {
     const { data, error } = await supabase.from('Doctor_info').insert([
       { DoctorName, Speciality, Contact, Address },
     ]);
-    
+
     if (error) {
-      setAlert({ show: true, message: 'Error adding doctor.', variant: 'danger' });
+      setAlert({ show: true, message: 'Error adding doctor.', severity: 'error' });
     } else if (data && data.length > 0) {
       setDoctors([...doctors, data[0]]);
-      setAlert({ show: true, message: 'Doctor added successfully!', variant: 'success' });
+      setAlert({ show: true, message: 'Doctor added successfully!', severity: 'success' });
       clearForm();
+      setOpenModal(false);
     } else {
-      setAlert({ show: true, message: 'Doctor added please refresh to reflect changes.', variant: 'warning' });
+      setAlert({ show: true, message: 'Doctor added, please refresh to reflect changes.', severity: 'warning' });
     }
   };
 
@@ -49,22 +65,23 @@ const Doctor = () => {
       .eq('id', doctorId);
 
     if (error) {
-      setAlert({ show: true, message: 'Error updating doctor.', variant: 'danger' });
+      setAlert({ show: true, message: 'Error updating doctor.', severity: 'error' });
     } else {
       fetchDoctors();
-      setAlert({ show: true, message: 'Doctor updated successfully!', variant: 'success' });
+      setAlert({ show: true, message: 'Doctor updated successfully!', severity: 'success' });
       setEditingDoctorId(null);
       clearForm();
+      setOpenModal(false);
     }
   };
 
   const deleteDoctor = async (doctorId) => {
     const { error } = await supabase.from('Doctor_info').delete().eq('id', doctorId);
     if (error) {
-      setAlert({ show: true, message: 'Error deleting doctor.', variant: 'danger' });
+      setAlert({ show: true, message: 'Error deleting doctor.', severity: 'error' });
     } else {
       setDoctors(doctors.filter(doctor => doctor.id !== doctorId));
-      setAlert({ show: true, message: 'Doctor deleted successfully!', variant: 'success' });
+      setAlert({ show: true, message: 'Doctor deleted successfully!', severity: 'success' });
     }
   };
 
@@ -83,7 +100,19 @@ const Doctor = () => {
     setSpeciality(doctor.Speciality);
     setContact(doctor.Contact);
     setAddress(doctor.Address);
+    setOpenModal(true);
   };
+
+  const handleAddClick = () => {
+    setEditingDoctorId(null);
+    clearForm();
+    setOpenModal(true);
+  };
+
+  const handleBack = () => {
+    // navigate back
+    navigate('/health')
+  }
 
   const clearForm = () => {
     setDoctorName('');
@@ -98,108 +127,140 @@ const Doctor = () => {
         <title>Doctor Directory</title>
       </Helmet>
       <Container>
+
         <header style={headerStyle}>Doctor Management</header>
 
+
         <main className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: '80vh', padding: '20px' }}>
-          <Container style={containerStyle}>
+          <Box sx={buttonsStyle}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleBack}
+              sx={buttonStyle}
+            >
+              Go Back
+            </Button>
+
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleAddClick}
+              sx={buttonStyle}
+            >
+              Add Doctor
+            </Button>
+          </Box>
+          <Container sx={containerStyle}>
             <section>
-              <h2 className="text-center" style={{ color: '#671d80' }}>Your Current Doctors</h2>
+              <Typography variant="h4" align="center" color="#671d80">Your Current Doctors</Typography>
               {alert.show && (
-                <Alert variant={alert.variant} onClose={() => setAlert({ ...alert, show: false })} dismissible>
+                <Alert severity={alert.severity} onClose={() => setAlert({ ...alert, show: false })}>
                   {alert.message}
                 </Alert>
               )}
-              <ul className="list-unstyled">
+              <Box sx={listStyle}>
                 {doctors.map(doctor => (
-                  <li key={doctor.id} className="d-flex justify-content-between align-items-center p-3 mb-3" style={doctorListItemStyle}>
-                    <div className="flex-grow-1 pr-3">
-                      <h3 style={{ color: '#671d80' }}>{doctor.DoctorName}</h3>
-                      <p>Speciality: {doctor.Speciality}</p>
-                      <p>Contact: {doctor.Contact}</p>
-                      <p>Address: {doctor.Address}</p>
-                    </div>
-                    <Button
-                      variant="primary"
-                      className="mr-2"
-                      onClick={() => handleEditClick(doctor)}
-                      style={buttonStyle}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => deleteDoctor(doctor.id)}
-                      style={deleteButtonStyle}
-                    >
-                      Delete
-                    </Button>
-                  </li>
+                  <Paper key={doctor.id} sx={doctorListItemStyle}>
+                    <Box>
+                      <Typography variant="h5" color="#671d80">{doctor.DoctorName}</Typography>
+                      <Typography>Speciality: {doctor.Speciality}</Typography>
+                      <Typography>Contact: {doctor.Contact}</Typography>
+                      <Typography>Address: {doctor.Address}</Typography>
+                    </Box>
+                    <Box sx={buttonGroupStyle}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleEditClick(doctor)}
+                        sx={buttonStyle}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => deleteDoctor(doctor.id)}
+                        sx={deleteButtonStyle}
+                      >
+                        Delete
+                      </Button>
+                    </Box>
+                  </Paper>
                 ))}
-              </ul>
+              </Box>
             </section>
           </Container>
 
-          <Container style={containerStyle}>
-            <section>
-              <h2 className="text-center" style={{ color: '#671d80' }}>
-                {editingDoctorId ? 'Edit Doctor' : 'Add New Doctor'}
-              </h2>
-              <Form onSubmit={handleFormSubmit}>
-                <Form.Group controlId="DoctorName">
-                  <Form.Label>Doctor's Name:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={DoctorName}
-                    onChange={(e) => setDoctorName(e.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group controlId="Speciality">
-                  <Form.Label>Speciality:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={Speciality}
-                    onChange={(e) => setSpeciality(e.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group controlId="Contact">
-                  <Form.Label>Contact Information:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={Contact}
-                    onChange={(e) => setContact(e.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Form.Group controlId="Address">
-                  <Form.Label>Address:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={Address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    required
-                  />
-                </Form.Group>
-                <Button
-                  type="submit"
-                  className="btn-block"
-                  style={buttonStyle}
-                >
-                  {editingDoctorId ? 'Update Doctor' : 'Add Doctor'}
-                </Button>
-              </Form>
-            </section>
-          </Container>
+
+
+          {/* Modal for form */}
+          <Dialog open={openModal} onClose={() => setOpenModal(false)}>
+            <DialogTitle>{editingDoctorId ? 'Edit Doctor' : 'Add New Doctor'}</DialogTitle>
+            <DialogContent>
+              <form onSubmit={handleFormSubmit}>
+                <TextField
+                  label="Doctor's Name"
+                  variant="outlined"
+                  value={DoctorName}
+                  onChange={(e) => setDoctorName(e.target.value)}
+                  fullWidth
+                  margin="normal"
+                  required
+                />
+                <TextField
+                  label="Speciality"
+                  variant="outlined"
+                  value={Speciality}
+                  onChange={(e) => setSpeciality(e.target.value)}
+                  fullWidth
+                  margin="normal"
+                  required
+                />
+                <TextField
+                  label="Contact Information"
+                  variant="outlined"
+                  value={Contact}
+                  onChange={(e) => setContact(e.target.value)}
+                  fullWidth
+                  margin="normal"
+                  required
+                />
+                <TextField
+                  label="Address"
+                  variant="outlined"
+                  value={Address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  fullWidth
+                  margin="normal"
+                  required
+                />
+              </form>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setOpenModal(false)} color="default">
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                onClick={handleFormSubmit}
+              >
+                {editingDoctorId ? 'Update Doctor' : 'Add Doctor'}
+              </Button>
+            </DialogActions>
+          </Dialog>
         </main>
       </Container>
     </>
   );
 };
 
-// Inline styles for custom color themes
+// MUI styling
 const headerStyle = {
   backgroundColor: '#671d80',
+  width: '100vw',
   padding: '20px',
   textAlign: 'center',
   color: 'white',
@@ -218,27 +279,46 @@ const containerStyle = {
   marginBottom: '20px',
 };
 
+const listStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '10px',
+};
+
 const doctorListItemStyle = {
+  padding: '20px',
+  borderRadius: '10px',
   backgroundColor: '#e3f2fd',
   border: '1px solid #bbdefb',
-  borderRadius: '10px',
-  transition: 'transform 0.2s',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+};
+
+const buttonGroupStyle = {
+  display: 'flex',
+  gap: '10px',
 };
 
 const buttonStyle = {
   backgroundColor: '#671d80',
-  borderColor: '#671d80',
-  transition: 'background-color 0.3s',
-  padding: '10px 20px',
-  margin: '5px',
+  '&:hover': {
+    backgroundColor: '#5c2a7f',
+  },
+};
+
+const buttonsStyle = {
+  marginTop: '20px',
+  gap: '5px',
+  display: 'flex',
+  marginBottom: '10px',
 };
 
 const deleteButtonStyle = {
   backgroundColor: '#e53935',
-  borderColor: '#e53935',
-  transition: 'background-color 0.3s',
-  padding: '10px 20px',
-  margin: '5px',
+  '&:hover': {
+    backgroundColor: '#c62828',
+  },
 };
 
 export default Doctor;
