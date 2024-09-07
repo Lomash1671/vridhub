@@ -1,19 +1,19 @@
 import React from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
-import prescriptionImg from '../../assets/pres.jpg'; // Adjust the image path
-import doctorImg from '../../assets/directory.jpg';  // Adjust the image path
+import bookingImg from '../../assets/transportbooking.jpeg'; // Adjust the image path
+import carpollingImg from '../../assets/carpooling2.jpeg';  // Adjust the image path
 
 // Tile data array
 const tilesData = [
   {
     title: 'Book Cab',
-    imgSrc: prescriptionImg,
+    imgSrc: bookingImg,
     link: '/transport/book-cab',
     alt: 'Book Cab',
   },
   {
     title: 'Carpool',
-    imgSrc: doctorImg,
+    imgSrc: carpollingImg,
     link: '/transport/carpool',
     alt: 'Carpool',
   },
