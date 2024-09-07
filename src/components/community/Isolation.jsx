@@ -1,19 +1,19 @@
 import React from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
-import prescriptionImg from '../../assets/pres.jpg'; // Adjust the image path
-import images from '../../assets/images.avif';  // Adjust the image path
+import meetingImg from '../../assets/community.webp'; // Adjust the image path
+import inter from '../../assets/intergerenationalmeetups.jpeg';  // Adjust the image path
 
 // Tile data array
 const tilesData = [
   {
     title: 'Community',
-    imgSrc: prescriptionImg,
+    imgSrc: meetingImg,
     link: '/isolation/community',
     alt: 'Community',
   },
   {
     title: 'Intergenerational',
-    imgSrc: images,
+    imgSrc: inter,
     link: '/isolation/intergenerational',
     alt: 'Intergenerational',
   },
