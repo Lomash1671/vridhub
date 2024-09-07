@@ -28,8 +28,6 @@ const Finance = () => {
 
   return (
     <div className="container text-center mt-4" style={{ fontFamily: 'Times New Roman, serif' }}>
-      <h1 className="display-4 font-weight-bold">Manage Your Finances with Ease</h1>
-
       <div className="row justify-content-center mt-5">
         {tilesData.map((tile, index) => (
           <div className="col-lg-4 col-md-6 col-sm-12 mb-4" key={index}>

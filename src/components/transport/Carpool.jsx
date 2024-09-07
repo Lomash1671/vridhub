@@ -213,18 +213,6 @@ const Carpool = () => {
         </div>
       </section>
 
-      <section style={contentStyle} id="contact">
-        <h2>Contact Us</h2>
-        <div style={formContainerStyle}>
-          <form>
-            <input type="text" name="name" placeholder="Your Name" required style={inputStyle} />
-            <input type="email" name="email" placeholder="Your Email" required style={inputStyle} />
-            <textarea name="message" rows="5" placeholder="Your Message" required style={inputStyle}></textarea>
-            <button type="submit" style={ctaButtonStyle}>Send Message</button>
-          </form>
-        </div>
-      </section>
-
       <ToastContainer className="p-3" position="top-end">
         <Toast onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide bg={toastVariant}>
           <Toast.Header>
@@ -233,7 +221,6 @@ const Carpool = () => {
           <Toast.Body>{toastMessage}</Toast.Body>
         </Toast>
       </ToastContainer>
-
     </div>
   );
 };

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { Snackbar, Alert } from '@mui/material';
 import supabase from '../../../supabase'; // Import Supabase client
 
 const BookCab = () => {
   const [contrast, setContrast] = useState(false);
   const [largerText, setLargerText] = useState(false);
   const [message, setMessage] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success'); // Can be 'success' or 'error'
 
   const toggleContrast = () => setContrast(!contrast);
   const toggleLargerText = () => setLargerText(!largerText);
@@ -32,8 +35,12 @@ const BookCab = () => {
   
       if (error) {
         setMessage(`Error: ${error.message}`);
+        setSnackbarSeverity('error'); // Set Snackbar severity to error
+        setSnackbarOpen(true); // Open the Snackbar
       } else {
         setMessage(`Cab booked from ${pickup} to ${dropoff} on ${date} at ${time}.`);
+        setSnackbarSeverity('success'); // Set Snackbar severity to success
+        setSnackbarOpen(true); // Open the Snackbar
         setTimeout(() => {
           form.reset(); // Reset the form fields
           setMessage(''); // Clear the message after resetting
@@ -41,7 +48,19 @@ const BookCab = () => {
       }
     } else {
       setMessage('Please fill in all fields.');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true); // Open the Snackbar with an error
     }
+  };
+
+  const displayAlert = () => {
+    setMessage('This feature is not available yet.');
+    setSnackbarSeverity('error');
+    setSnackbarOpen(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
   };
 
   // Styling
@@ -111,10 +130,6 @@ const BookCab = () => {
     transition: 'background-color 0.3s',
   };
 
-  const buttonHoverStyle = {
-    backgroundColor: '#388E3C',
-  };
-
   const footerStyle = {
     textAlign: 'center',
     padding: '20px',
@@ -142,9 +157,9 @@ const BookCab = () => {
       </header>
 
       <nav style={navStyle}>
-        <a href="#book-cab" style={{ ...navLinkStyle }}>Book Cab</a>
-        <a href="#book-bus" style={{ ...navLinkStyle }}>Book Bus</a>
-        <a href="#book-train" style={{ ...navLinkStyle }}>Book Train</a>
+        <a href="#book-cab" style={navLinkStyle}>Book Cab</a>
+        <a onClick={displayAlert} href="#" style={navLinkStyle}>Book Bus</a>
+        <a onClick={displayAlert} href="#" style={navLinkStyle}>Book Train</a>
       </nav>
 
       <main style={{ padding: '20px' }}>
@@ -152,8 +167,6 @@ const BookCab = () => {
           <button
             className="btn btn-primary"
             style={buttonStyle}
-            onMouseOver={(e) => (e.target.style.backgroundColor = '#388E3C')}
-            onMouseOut={(e) => (e.target.style.backgroundColor = '#4CAF50')}
             onClick={toggleContrast}
           >
             Toggle High Contrast
@@ -161,8 +174,6 @@ const BookCab = () => {
           <button
             className="btn btn-primary"
             style={buttonStyle}
-            onMouseOver={(e) => (e.target.style.backgroundColor = '#388E3C')}
-            onMouseOut={(e) => (e.target.style.backgroundColor = '#4CAF50')}
             onClick={toggleLargerText}
           >
             Larger Text
@@ -170,7 +181,7 @@ const BookCab = () => {
           <button
             className="btn btn-primary"
             style={{ ...buttonStyle, backgroundColor: '#FF9800' }}
-            onClick={() => alert('Read Aloud functionality not implemented.')}
+            onClick={displayAlert}
           >
             Read Aloud
           </button>
@@ -226,13 +237,21 @@ const BookCab = () => {
               value="Book Now"
               className="btn btn-primary"
               style={buttonStyle}
-              onMouseOver={(e) => (e.target.style.backgroundColor = '#388E3C')}
-              onMouseOut={(e) => (e.target.style.backgroundColor = '#4CAF50')}
             />
           </form>
-          <p style={{ color: 'green', fontWeight: 'bold' }}>{message}</p>
         </section>
       </main>
+
+      {/* Snackbar for success/error messages */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {message}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
