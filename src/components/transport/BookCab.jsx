@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Snackbar, Alert } from '@mui/material';
 import supabase from '../../../supabase'; // Import Supabase client
+import { Helmet } from 'react-helmet';
 
 const BookCab = () => {
   const [contrast, setContrast] = useState(false);
@@ -146,6 +147,10 @@ const BookCab = () => {
   };
 
   return (
+    <>
+    <Helmet>
+      <title>Transport - Book Cab</title>
+    </Helmet>
     <div
       style={{
         ...containerStyle,
@@ -253,6 +258,7 @@ const BookCab = () => {
         </Alert>
       </Snackbar>
     </div>
+    </>
   );
 };
 

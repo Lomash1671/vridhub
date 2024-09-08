@@ -3,6 +3,7 @@ import supabase from '../../../supabase';
 import { Snackbar, Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Box } from '@mui/material';
 import { Spinner } from 'react-bootstrap'; 
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 const Prescription = () => {
   const [prescriptions, setPrescriptions] = useState([]);
@@ -124,6 +125,10 @@ const Prescription = () => {
   }
 
   return (
+    <>
+    <Helmet>
+      <title>Health - Prescription</title>
+    </Helmet>
     <div>
       <main className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: '80vh', padding: '20px' }}>
         {/* Display loading animation */}
@@ -214,6 +219,7 @@ const Prescription = () => {
         </Alert>
       </Snackbar>
     </div>
+    </>
   );
 };
 

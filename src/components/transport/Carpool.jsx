@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Toast, ToastContainer } from 'react-bootstrap';
+import { Helmet } from 'react-helmet';
 
 const Carpool = () => {
   const [showToast, setShowToast] = useState(false);
@@ -146,6 +147,10 @@ const Carpool = () => {
   };
 
   return (
+    <>
+    <Helmet>
+      <title>Transport - Carpooling Service</title>
+    </Helmet>
     <div style={containerStyle}>
       <header style={headerStyle}>
         <h1>Elderly Carpool Service</h1>
@@ -222,6 +227,7 @@ const Carpool = () => {
         </Toast>
       </ToastContainer>
     </div>
+    </>
   );
 };
 

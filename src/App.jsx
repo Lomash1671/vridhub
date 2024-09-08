@@ -17,6 +17,7 @@ import Isolation from './components/community/Isolation'
 import Community from './components/community/Community'
 import Intergenerational from './components/community/Intergenerational'
 import Contact from './components/Contact'
+import About from './components/About'
 
 function App() {
   useEffect(() => {
@@ -28,6 +29,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
+        <Route path="/about" element={<About />}></Route>
         {/* Health */}
         <Route path="/health" element={<Health />} />
         <Route path="/health/prescription" element={<Prescription />} />

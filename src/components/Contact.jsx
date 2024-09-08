@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CircularProgress, Snackbar, Alert } from '@mui/material';
 import supabase from '../../supabase'; // Import Supabase client
+import { Helmet } from 'react-helmet';
 
 const Contact = () => {
   const [name, setName] = useState('');
@@ -47,6 +48,10 @@ const Contact = () => {
   };
 
   return (
+    <>
+    <Helmet>
+      <title>Contact Us</title>
+    </Helmet>
     <div style={containerStyle}>
       <h2>Contact Us</h2>
       <form onSubmit={handleSubmit} style={formStyle}>
@@ -98,6 +103,7 @@ const Contact = () => {
         </Alert>
       </Snackbar>
     </div>
+    </>
   );
 };
 

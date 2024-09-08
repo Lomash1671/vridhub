@@ -124,7 +124,7 @@ const Doctor = () => {
   return (
     <>
       <Helmet>
-        <title>Doctor Directory</title>
+        <title>Health - Doctor Directory</title>
       </Helmet>
       <Container>
 

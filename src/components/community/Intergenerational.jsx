@@ -1,4 +1,11 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
+// import Footer from '../Footer';
+import back from '../../assets/back.jpg'
+import intergenerational from '../../assets/intergerenationalmeetups.jpg'
+import intergerenationalskills from '../../assets/intergerenationalskills.jpg'
+import intergerenationalsupport from '../../assets/intergerenationalsupport.jpg'
 
 const Intergenerational = () => {
   const [info, setInfo] = useState({
@@ -56,7 +63,7 @@ const Intergenerational = () => {
       color: 'white',
     },
     hero: {
-      backgroundImage: 'url("elderly_children.jpg")',
+      backgroundImage: `url(${back})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       height: '400px',
@@ -144,6 +151,10 @@ const Intergenerational = () => {
   };
 
   return (
+    <>
+    <Helmet>
+      <title>Isolation - Intergenerational</title>
+    </Helmet>
     <div style={styles.body}>
       <header style={styles.header}>
         <h1 style={styles.headerTitle}>Bridging Generations</h1>
@@ -151,10 +162,10 @@ const Intergenerational = () => {
       </header>
       
       <nav style={styles.nav}>
-        <a href="#home" style={styles.navLink}>Home</a>
+        <Link to="/" style={styles.navLink}>Home</Link>
         <a href="#features" style={styles.navLink}>Features</a>
-        <a href="#about" style={styles.navLink}>About Us</a>
-        <a href="#contact" style={styles.navLink}>Contact Us</a>
+        <Link to="/about" style={styles.navLink}>About Us</Link>
+        <Link to="/isolation" style={styles.navLink}>Community</Link>
       </nav>
       
       <section style={styles.hero}>
@@ -165,7 +176,7 @@ const Intergenerational = () => {
         <h2 style={styles.contentTitle}>Our Features</h2>
         <div style={styles.feature}>
           <div style={styles.featureItem}>
-            <img src="intergenerational_meetup.jpg" alt="Intergenerational Meetups" style={styles.featureImage} />
+            <img src={intergenerational} alt="Intergenerational Meetups" style={styles.featureImage} />
             <h3 style={styles.featureTitle}>Intergenerational Meetups</h3>
             <p style={styles.featureDescription}>Organize and participate in meetups that bring the elderly and orphans together for shared activities and companionship.</p>
             <button
@@ -183,7 +194,7 @@ const Intergenerational = () => {
             )}
           </div>
           <div style={styles.featureItem}>
-            <img src="skill_sharing.jpg" alt="Skill Sharing" style={styles.featureImage} />
+            <img src={intergerenationalskills} alt="Skill Sharing" style={styles.featureImage} />
             <h3 style={styles.featureTitle}>Skill Sharing</h3>
             <p style={styles.featureDescription}>Elderly participants can share their life skills and experiences with the younger generation, offering guidance and wisdom.</p>
             <button
@@ -201,7 +212,7 @@ const Intergenerational = () => {
             )}
           </div>
           <div style={styles.featureItem}>
-            <img src="community_support.jpg" alt="Community Support" style={styles.featureImage} />
+            <img src={intergerenationalsupport} alt="Community Support" style={styles.featureImage} />
             <h3 style={styles.featureTitle}>Community Support</h3>
             <p style={styles.featureDescription}>Build a supportive community where both the elderly and orphans can find companionship, understanding, and care.</p>
             <button
@@ -221,6 +232,8 @@ const Intergenerational = () => {
         </div>
       </section>
     </div>
+    {/* <Footer /> */}
+    </>
   );
 };
 

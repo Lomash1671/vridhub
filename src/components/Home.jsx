@@ -6,6 +6,7 @@ import transport from '../assets/transport.jpg';
 import isolation from '../assets/isolation.png';
 import background from '../assets/more_translucent_elderly_care_scene.png'; // Import background image
 import { Helmet } from 'react-helmet';
+// import Footer from './Footer';
 
 const Home = () => {
   const [hoveredService, setHoveredService] = useState(null);
@@ -88,6 +89,16 @@ const Home = () => {
       fontSize: '18px',
       margin: '0',
     },
+    footer: {
+      textAlign: 'center',
+      padding: '20px',
+      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+      fontSize: '16px',
+      position: 'relative',
+      bottom: '0',
+      width: '100%',
+      boxShadow: '0 -4px 8px rgba(0, 0, 0, 0.2)',
+    },
   };
 
   return (
@@ -118,6 +129,9 @@ const Home = () => {
         </div>
       </div>
     </div>
+    <footer style={styles.footer}>
+            Designed By: Byte Busters
+        </footer>
     </>
   );
 };

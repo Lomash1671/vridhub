@@ -3,6 +3,7 @@ import { useNavigate, Outlet } from 'react-router-dom';
 import prescriptionImg from '../../assets/pres.jpg'; // Adjust the image path
 import doctorImg from '../../assets/directory.jpg';  // Adjust the image path
 import { Helmet } from 'react-helmet';
+import Footer from '../Footer';
 
 // Tile data array
 const tilesData = [
@@ -61,6 +62,7 @@ const Health = () => {
 
         <Outlet />
       </div>
+      <Footer />
     </>
   );
 };

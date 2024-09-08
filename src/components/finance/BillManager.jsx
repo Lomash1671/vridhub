@@ -4,6 +4,7 @@ import { Snackbar, Alert, Button, TextField, Select, MenuItem, Table, TableBody,
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 const BillManager = () => {
   const [billName, setBillName] = useState('');
@@ -120,123 +121,128 @@ const BillManager = () => {
   }
 
   return (
-    <div style={containerStyle}>
-      <h1 style={titleStyle}>Bill Manager</h1>
-      <Box sx={buttonsStyle}>
-      <Button variant="contained" color="primary" onClick={handleBack} style={buttonStyle}>
-        Go Back
-      </Button>
+    <>
+      <Helmet>
+        <title>Finance - Bill Manager</title>
+      </Helmet>
+      <div style={containerStyle}>
+        <h1 style={titleStyle}>Bill Manager</h1>
+        <Box sx={buttonsStyle}>
+          <Button variant="contained" color="primary" onClick={handleBack} style={buttonStyle}>
+            Go Back
+          </Button>
 
-      <Button variant="contained" color="info" onClick={() => openDialogForEdit()} style={buttonStyle}>
-        Add Bill
-      </Button>
-      </Box>
+          <Button variant="contained" color="info" onClick={() => openDialogForEdit()} style={buttonStyle}>
+            Add Bill
+          </Button>
+        </Box>
 
-      <TableContainer component={Paper} style={{ marginTop: '20px' }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell style={thTdStyle}>Bill Name</TableCell>
-              <TableCell style={thTdStyle}>Amount</TableCell>
-              <TableCell style={thTdStyle}>Due Date</TableCell>
-              <TableCell style={thTdStyle}>Status</TableCell>
-              <TableCell style={thTdStyle}>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {bills.map((bill) => (
-              <TableRow key={bill.id}>
-                <TableCell style={thTdStyle}>{bill.billname}</TableCell>
-                <TableCell style={thTdStyle}>{bill.billamount}</TableCell>
-                <TableCell style={thTdStyle}>{bill.duedate}</TableCell>
-                <TableCell style={{ ...thTdStyle, ...statusStyle, ...statusClasses[getStatusClass(bill.status)] }}>
-                  {bill.status.charAt(0).toUpperCase() + bill.status.slice(1)}
-                </TableCell>
-                <TableCell style={thTdStyle}>
-                  <IconButton onClick={() => openDialogForEdit(bill)} color="primary">
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton onClick={() => handleDeleteBill(bill.id)} color="secondary">
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
+        <TableContainer component={Paper} style={{ marginTop: '20px' }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell style={thTdStyle}>Bill Name</TableCell>
+                <TableCell style={thTdStyle}>Amount</TableCell>
+                <TableCell style={thTdStyle}>Due Date</TableCell>
+                <TableCell style={thTdStyle}>Status</TableCell>
+                <TableCell style={thTdStyle}>Actions</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {bills.map((bill) => (
+                <TableRow key={bill.id}>
+                  <TableCell style={thTdStyle}>{bill.billname}</TableCell>
+                  <TableCell style={thTdStyle}>{bill.billamount}</TableCell>
+                  <TableCell style={thTdStyle}>{bill.duedate}</TableCell>
+                  <TableCell style={{ ...thTdStyle, ...statusStyle, ...statusClasses[getStatusClass(bill.status)] }}>
+                    {bill.status.charAt(0).toUpperCase() + bill.status.slice(1)}
+                  </TableCell>
+                  <TableCell style={thTdStyle}>
+                    <IconButton onClick={() => openDialogForEdit(bill)} color="primary">
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton onClick={() => handleDeleteBill(bill.id)} color="secondary">
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-        <DialogTitle>{isEditMode ? 'Edit Bill' : 'Add Bill'}</DialogTitle>
-        <DialogContent>
-          <TextField
-            label="Bill Name"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={billName}
-            onChange={(e) => setBillName(e.target.value)}
-            required
-          />
-          <TextField
-            label="Amount"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={billAmount}
-            onChange={(e) => setBillAmount(e.target.value)}
-            required
-          />
-          <TextField
-            label="Due Date"
-            type="date"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={billDate}
-            onChange={(e) => setBillDate(e.target.value)}
-            required
-            InputLabelProps={{ shrink: true }}
-          />
-          <Select
-            label="Status"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={billStatus}
-            onChange={(e) => setBillStatus(e.target.value)}
-          >
-            <MenuItem value="paid">Paid</MenuItem>
-            <MenuItem value="unpaid">Unpaid</MenuItem>
-            <MenuItem value="pending">Pending</MenuItem>
-          </Select>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpenDialog(false)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSaveBill} color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+          <DialogTitle>{isEditMode ? 'Edit Bill' : 'Add Bill'}</DialogTitle>
+          <DialogContent>
+            <TextField
+              label="Bill Name"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={billName}
+              onChange={(e) => setBillName(e.target.value)}
+              required
+            />
+            <TextField
+              label="Amount"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={billAmount}
+              onChange={(e) => setBillAmount(e.target.value)}
+              required
+            />
+            <TextField
+              label="Due Date"
+              type="date"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={billDate}
+              onChange={(e) => setBillDate(e.target.value)}
+              required
+              InputLabelProps={{ shrink: true }}
+            />
+            <Select
+              label="Status"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              value={billStatus}
+              onChange={(e) => setBillStatus(e.target.value)}
+            >
+              <MenuItem value="paid">Paid</MenuItem>
+              <MenuItem value="unpaid">Unpaid</MenuItem>
+              <MenuItem value="pending">Pending</MenuItem>
+            </Select>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenDialog(false)} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleSaveBill} color="primary">
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
 
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        message={snackbarMessage}
-        action={
-          <Button color="inherit" onClick={handleCloseSnackbar}>
-            Close
-          </Button>
-        }
-      >
-        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-    </div>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          message={snackbarMessage}
+          action={
+            <Button color="inherit" onClick={handleCloseSnackbar}>
+              Close
+            </Button>
+          }
+        >
+          <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
+      </div>
+    </>
   );
 };
 
