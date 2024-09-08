@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import meetingImg from '../../assets/community.webp'; // Adjust the image path
 import inter from '../../assets/intergerenationalmeetups.jpeg';  // Adjust the image path
+import { Helmet } from 'react-helmet';
+import Footer from '../Footer';
 
 // Tile data array
 const tilesData = [
@@ -27,6 +29,10 @@ const Isolation = () => {
   };
 
   return (
+    <>
+    <Helmet>
+      <title>Isolation</title>
+    </Helmet>
     <div className="container text-center mt-4" style={{ fontFamily: 'Times New Roman, serif' }}>
       <h1 className="display-4 font-weight-bold">Comprehensive Elder Care</h1>
 
@@ -56,6 +62,8 @@ const Isolation = () => {
 
       <Outlet />
     </div>
+    <Footer />
+    </>
   );
 };
 

@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import bookingImg from '../../assets/transportbooking.jpeg'; // Adjust the image path
 import carpollingImg from '../../assets/carpooling2.jpeg';  // Adjust the image path
+import { Helmet } from 'react-helmet';
+import Footer from '../Footer';
 
 // Tile data array
 const tilesData = [
@@ -27,6 +29,10 @@ const Transport = () => {
   };
 
   return (
+    <>
+    <Helmet>
+      <title>Transport</title>
+    </Helmet>
     <div className="container text-center mt-4" style={{ fontFamily: 'Times New Roman, serif' }}>
       <h1 className="display-4 font-weight-bold">Elderly Travel Assistance</h1>
 
@@ -56,6 +62,8 @@ const Transport = () => {
 
       <Outlet />
     </div>
+    <Footer />
+    </>
   );
 };
 

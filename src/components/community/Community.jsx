@@ -1,10 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import React, { useState } from 'react';
-import elderlyCommunityImg from '../../assets/communityMeetup1.jpeg';
+import elderlyCommunityImg from '../../assets/back.jpg';
 import communityMeetup1 from '../../assets/communityMeetup1.jpeg';
 import communityMeetup2 from '../../assets/communityMeetup1.jpeg';
 import communityMeetup3 from '../../assets/communityMeetup1.jpeg';
+import { Helmet } from 'react-helmet';
+// import Footer from '../Footer';
+import { Link } from 'react-router-dom';
 
 const headerStyle = css`
   background-color: #2C3E50;
@@ -137,6 +140,10 @@ const Community = () => {
   };
 
   return (
+    <>
+    <Helmet>
+      <title>Isolation - Community</title>
+    </Helmet>
     <div css={{ fontFamily: 'Helvetica Neue, Arial, sans-serif', margin: 0, padding: 0, backgroundColor: '#f9f9f9', color: '#333' }}>
       <header css={headerStyle}>
         <h1>Elderly Connect</h1>
@@ -144,10 +151,10 @@ const Community = () => {
       </header>
 
       <nav css={navStyle}>
-        <a href="#home">Home</a>
-        <a href="#community">Community Meetups</a>
-        <a href="#about">About Us</a>
-        <a href="#contact">Contact Us</a>
+        <Link to="/" >Home</Link>
+        <a href="#features">Features</a>
+        <Link to="/about">About Us</Link>
+        <Link to="/isolation">Community</Link>
       </nav>
 
       <section css={heroStyle}>
@@ -193,6 +200,8 @@ const Community = () => {
         </div>
       </section>
     </div>
+    {/* <Footer /> */}
+    </>
   );
 };
 

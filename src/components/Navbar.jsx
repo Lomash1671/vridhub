@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import logo from './logo.png'; 
+import logo from '../assets/VRIDH.png'; 
 
 const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
       <div className="container">
         <Link className="navbar-brand" to="/">
-          <img src='' alt="Logo" width="40" height="40" className="d-inline-block align-top" />
+          <img src={logo} alt="Logo" width="40" height="40" className="d-inline-block align-top" />
           Elderly Assistance
         </Link>
         <button
